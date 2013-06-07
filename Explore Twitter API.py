@@ -1,6 +1,6 @@
-import twitter__login
+import oauth_login
 
-t = twitter__login.login()
+t = oauth_login.login()
 
 # tweets = t.statuses.user_timeline()
 #
