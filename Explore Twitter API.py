@@ -19,7 +19,7 @@ t = oauth_login.login()
 # tweets2 = t.statuses.user_timeline(screen_name='texastribune', count=200)
 #
 
-tweets2 = t.search.tweets(q='http://www.texastribune.org/2013/05/30/transportation-lege-backed-tolls-and-debt-over-cas/', count=100, lang='en')
+tweets2 = t.search.tweets(q='http://www.texastribune.org/2013/06/07/redistricting-harder-it-looked/', count=100, lang='en')
 
 tweets4 = tweets2['statuses']
 

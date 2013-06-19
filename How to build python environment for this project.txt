@@ -1,0 +1,15 @@
+To build on system:
+
+Install GIT and GitHub for windows
+
+1. install Active Python (to get easy_install)
+--2. easy_install couchdb
+3. easy_install pip
+4. pip install tweepy
+5. pip install twitter
+6. pip install numpy
+--6. pip install nltk
+7. easy_install feedparser
+
+Enable CouchDB python scripting
+
