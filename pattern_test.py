@@ -4,12 +4,32 @@ from pattern.web import Newsfeed
 
 #pattern.web
 
-s = Twitter().stream('#fail')
-for i in range(10):
-    s.update(bytes=1024)
-    print s[-1].text if s else ""
+# s = Twitter().stream('#fail')
+# for i in range(10):
+#     s.update(bytes=1024)
+#     print s[-1].text if s else ""
+#
+# print Twitter().trends()
 
-print Twitter().trends()
+#t = Twitter(license='', throttle=1.0, language='en')
+
+
+from pattern.web import Twitter
+print Twitter().trends(cached=False)
+
+
+#
+from pattern.web import Twitter
+twitter = Twitter()
+last_id = None
+for i in range(2):
+    for tweet in twitter.search('#stand4life', start=last_id, count=1000,
+                                cached=False):
+        print tweet.text
+        last_id = tweet.id
+print last_id
+
+
 
 # for tweet in Twitter().search('heroes', cached=False):
 #     print plaintext(tweet.description)
@@ -21,9 +41,10 @@ print Twitter().trends()
 # f.close()
 #
 
-NATURE = 'http://www.nature.com/nature/current_issue/rss/index.html'
-for result in Newsfeed().search(NATURE)[:5]:
-    print repr(result.title)
+#How to do RSS
+# NATURE = 'http://www.nature.com/nature/current_issue/rss/index.html'
+# for result in Newsfeed().search(NATURE)[:5]:
+#     print repr(result.title)
 
 
 

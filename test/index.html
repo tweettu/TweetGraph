@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Graph</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/canvas.js"></script>
+	<script type="text/javascript" src="js/graph.js"></script>
+</head>
+<body>
+	<div id="graph" style="width:700px; height:500px;">
+		<script type="text/canvas">
+			function setup(canvas) {
+				canvas.size(700, 500);
+				canvas.fps = 30;
+				g = new Graph(canvas.element, 6);
+				var n = {
+					"human rights": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"},
+					"love": {weight:0.04, centrality:0.13, fill:"rgba(0,127,255,0.03)", stroke:"rgba(0,0,0,0.80)"},
+					"family": {weight:0.81, centrality:0.52, fill:"rgba(0,127,255,0.57)", stroke:"rgba(0,0,0,0.80)"},
+					"people": {weight:0.25, centrality:0.38, fill:"rgba(0,127,255,0.17)", stroke:"rgba(0,0,0,0.80)"},
+					"money": {weight:0.35, centrality:1.00, fill:"rgba(0,127,255,0.25)", stroke:"rgba(0,0,0,0.80)"},
+					"many things": {weight:0.31, centrality:0.00, fill:"rgba(0,127,255,0.22)", stroke:"rgba(0,0,0,0.80)"},
+					"nothing": {weight:0.79, centrality:0.48, fill:"rgba(0,127,255,0.55)", stroke:"rgba(0,0,0,0.80)"},
+					"education": {weight:0.04, centrality:0.13, fill:"rgba(0,127,255,0.03)", stroke:"rgba(0,0,0,0.80)"},
+					"friends": {weight:1.00, centrality:0.67, fill:"rgba(0,127,255,0.70)", stroke:"rgba(0,0,0,0.80)"},
+					"the environment": {weight:0.04, centrality:0.13, fill:"rgba(0,127,255,0.03)", stroke:"rgba(0,0,0,0.80)"},
+					"relationships": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"},
+					"that health": {weight:0.31, centrality:0.00, fill:"rgba(0,127,255,0.22)", stroke:"rgba(0,0,0,0.80)"},
+					"anything": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"},
+					"wife": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"},
+					"things": {weight:0.22, centrality:0.00, fill:"rgba(0,127,255,0.16)", stroke:"rgba(0,0,0,0.80)"},
+					"my family": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"},
+					"this ducks": {weight:0.22, centrality:0.00, fill:"rgba(0,127,255,0.16)", stroke:"rgba(0,0,0,0.80)"},
+					"stuff": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"},
+					"time": {weight:0.31, centrality:0.00, fill:"rgba(0,127,255,0.22)", stroke:"rgba(0,0,0,0.80)"},
+					"money information": {weight:0.00, centrality:0.00, fill:"rgba(0,127,255,0.00)", stroke:"rgba(0,0,0,0.80)"}
+				};
+				var e = [
+					["money", "time", {stroke:"rgba(0,0,0,0.60)"}],
+					["love", "money", {stroke:"rgba(0,0,0,0.60)"}],
+					["things", "people", {stroke:"rgba(0,0,0,0.60)"}],
+					["people", "money", {stroke:"rgba(0,0,0,0.60)"}],
+					["money information", "education", {stroke:"rgba(0,0,0,0.60)"}],
+					["education", "money", {stroke:"rgba(0,0,0,0.60)"}],
+					["people", "things", {stroke:"rgba(0,0,0,0.60)"}],
+					["family", "friends", {stroke:"rgba(0,0,0,0.60)"}],
+					["relationships", "nothing", {stroke:"rgba(0,0,0,0.60)"}],
+					["stuff", "people", {stroke:"rgba(0,0,0,0.60)"}],
+					["my family", "nothing", {stroke:"rgba(0,0,0,0.60)"}],
+					["friends", "family", {stroke:"rgba(0,0,0,0.60)"}],
+					["money", "many things", {stroke:"rgba(0,0,0,0.60)"}],
+					["money", "that health", {stroke:"rgba(0,0,0,0.60)"}],
+					["family", "nothing", {stroke:"rgba(0,0,0,0.60)"}],
+					["money", "friends", {stroke:"rgba(0,0,0,0.60)"}],
+					["people", "this ducks", {stroke:"rgba(0,0,0,0.60)"}],
+					["human rights", "the environment", {stroke:"rgba(0,0,0,0.60)"}],
+					["anything", "love", {stroke:"rgba(0,0,0,0.60)"}],
+					["the environment", "nothing", {stroke:"rgba(0,0,0,0.60)"}],
+					["wife", "friends", {stroke:"rgba(0,0,0,0.60)"}]
+				];
+				for (var id in n) {
+					g.addNode(id, n[id]);
+				}
+				for (var i=0; i < e.length; i++) {
+					var n1 = g.nodeset[e[i][0]];
+					var n2 = g.nodeset[e[i][1]];
+					g.addEdge(n1, n2, e[i][2]);
+				}
+				for (var i=0; i < g.nodes.length; i++) {
+					var n = g.nodes[i];
+					n.radius = n.radius + n.radius * n.weight;
+				}
+				for (var i=0; i < g.nodes.length; i++) {
+					var e = g.nodes[i].edges();
+					if (e.length == 1) {
+						e[0].length *= 0.2;
+					}
+				}
+				g.eigenvectorCentrality();
+				g.betweennessCentrality();
+				g.layout.k = 4.0; // Force constant (= edge length).
+				g.layout.force = 0.01; // Repulsive strength.
+				g.layout.repulsion = 50; // Repulsive radius.
+			}
+			function draw(canvas) {
+				if (g.layout.iterations <= 500) {
+					canvas.clear();
+					//shadow();
+					stroke(0);
+					fill(0,0);
+					g.update(2);
+					g.draw(0.6, true);
+				}
+				g.drag(canvas.mouse);
+			}
+		</script>
+	</div>
+</body>
+</html>
