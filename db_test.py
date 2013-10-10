@@ -11,16 +11,16 @@ db = Database(
     #, type = MYSQL
 )
 
-print db.tables
-print db.relations
-print db.query
+print 'tables = ', db.tables
+print 'relations = ', db.relations
+print 'query = ', db.query
 
-db.create('chows', fields=[
-    pk()
-    , field('manufacturer', STRING(80))
-    , field('brand', STRING(80), index=True)
-    , field('price', INTEGER)
-])
+#db.create('chows', fields=[
+#    pk()
+#    , field('manufacturer', STRING(80))
+#    , field('brand', STRING(80), index=True)
+#    , field('price', STRING(15))
+#])
 
 # db.create('pets', fields=[
 #           pk(),
@@ -35,4 +35,4 @@ db.pets.append(name=u'Schroedinger', type='cat', tail=True)
 db.pets.append(name=u'Caleb', type=u'hound', tail=True)
 
 for i in range(0, 20):
-    print db.pets.rows()[i]
+    print db.chows.rows()[i]
